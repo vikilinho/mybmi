@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'constants/boxContainer.dart';
+import 'package:mybmi/card_container.dart';
+import 'package:mybmi/constants/boxContainer.dart';
 
 class BMIPage extends StatefulWidget {
   @override
@@ -10,6 +11,13 @@ class BMIPage extends StatefulWidget {
 class _BMIPageState extends State<BMIPage> {
   static const butcontainerHeight = 80.0;
   static const butContainerColor = Color(0xFFEB1555);
+  static const activeColor = Color(0xFF1D1E33);
+  static const inactiveColor = Color(0xFFEB1555);
+  bool isActive = false;
+
+  void changeColor() {
+    if (isActive == false) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,28 +35,27 @@ class _BMIPageState extends State<BMIPage> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: BoxContainer(
-                        cardChild: Column(
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.mars,
-                              size: 80,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Text(
-                              "Male",
-                              style: TextStyle(fontSize: 25),
-                            )
-                          ],
+                      child: GestureDetector(
+                        onTap: () => changeColor(),
+                        child: BoxContainer(
+                          color: activeColor,
+                          cardChild: CardContainer(
+                            icon: FontAwesomeIcons.mars,
+                            label: "Male",
+                          ),
                         ),
                       ),
                     ),
                     Expanded(
-                        child: BoxContainer(
-                      label: "Female",
+                        child: GestureDetector(
+                      onTap: () => changeColor(),
+                      child: BoxContainer(
+                        color: activeColor,
+                        cardChild: CardContainer(
+                          icon: FontAwesomeIcons.venus,
+                          label: "Female",
+                        ),
+                      ),
                     )),
                   ],
                 ),

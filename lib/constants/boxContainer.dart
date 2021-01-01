@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class BoxContainer extends StatelessWidget {
   final Widget cardChild;
-  final String label;
-  BoxContainer({this.cardChild, this.label});
+  final Color color;
+
+  BoxContainer({this.cardChild, this.color});
 
   @override
   Widget build(BuildContext context) {
