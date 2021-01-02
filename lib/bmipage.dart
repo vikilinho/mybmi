@@ -3,20 +3,32 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mybmi/card_container.dart';
 import 'package:mybmi/constants/boxContainer.dart';
 
+const butcontainerHeight = 80.0;
+const butContainerColor = Color(0xFFEB1555);
+const activeColor = Color(0xFF1D1E33);
+const inactiveColor = Color(0xFF111328);
+
 class BMIPage extends StatefulWidget {
   @override
   _BMIPageState createState() => _BMIPageState();
 }
 
 class _BMIPageState extends State<BMIPage> {
-  static const butcontainerHeight = 80.0;
-  static const butContainerColor = Color(0xFFEB1555);
-  static const activeColor = Color(0xFF1D1E33);
-  static const inactiveColor = Color(0xFFEB1555);
-  bool isActive = false;
-
-  void changeColor() {
-    if (isActive == false) {}
+  Color maleCardColor = inactiveColor;
+  Color femaleCardColor = inactiveColor;
+  void changeColor(int gender) {
+    if (gender == 1 && maleCardColor == inactiveColor) {
+      maleCardColor = activeColor;
+      femaleCardColor = inactiveColor;
+    } else {
+      maleCardColor = inactiveColor;
+    }
+    if (gender == 2 && femaleCardColor == inactiveColor) {
+      femaleCardColor = activeColor;
+      maleCardColor = inactiveColor;
+    } else {
+      femaleCardColor = inactiveColor;
+    }
   }
 
   @override
@@ -36,9 +48,13 @@ class _BMIPageState extends State<BMIPage> {
                   children: [
                     Expanded(
                       child: GestureDetector(
-                        onTap: () => changeColor(),
+                        onTap: () {
+                          setState(() {
+                            changeColor(1);
+                          });
+                        },
                         child: BoxContainer(
-                          color: activeColor,
+                          color: maleCardColor,
                           cardChild: CardContainer(
                             icon: FontAwesomeIcons.mars,
                             label: "Male",
@@ -48,9 +64,13 @@ class _BMIPageState extends State<BMIPage> {
                     ),
                     Expanded(
                         child: GestureDetector(
-                      onTap: () => changeColor(),
+                      onTap: () {
+                        setState(() {
+                          changeColor(2);
+                        });
+                      },
                       child: BoxContainer(
-                        color: activeColor,
+                        color: femaleCardColor,
                         cardChild: CardContainer(
                           icon: FontAwesomeIcons.venus,
                           label: "Female",
@@ -61,16 +81,22 @@ class _BMIPageState extends State<BMIPage> {
                 ),
               ),
               Expanded(
-                child: BoxContainer(),
+                child: BoxContainer(
+                  color: Color(0xFF1D1E33),
+                ),
               ),
               Expanded(
                 child: Row(
                   children: [
                     Expanded(
-                      child: BoxContainer(),
+                      child: BoxContainer(
+                        color: Color(0xFF1D1E33),
+                      ),
                     ),
                     Expanded(
-                      child: BoxContainer(),
+                      child: BoxContainer(
+                        color: Color(0xFF1D1E33),
+                      ),
                     ),
                   ],
                 ),
@@ -84,6 +110,25 @@ class _BMIPageState extends State<BMIPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BoxContainer extends StatelessWidget {
+  final Widget cardChild;
+  final Color color;
+
+  BoxContainer({this.cardChild, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: cardChild,
+      margin: EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(10),
       ),
     );
   }
