@@ -7,6 +7,7 @@ const butcontainerHeight = 80.0;
 const butContainerColor = Color(0xFFEB1555);
 const activeColor = Color(0xFF1D1E33);
 const inactiveColor = Color(0xFF111328);
+enum Gender { male, female }
 
 class BMIPage extends StatefulWidget {
   @override
@@ -14,22 +15,7 @@ class BMIPage extends StatefulWidget {
 }
 
 class _BMIPageState extends State<BMIPage> {
-  Color maleCardColor = inactiveColor;
-  Color femaleCardColor = inactiveColor;
-  void changeColor(int gender) {
-    if (gender == 1 && maleCardColor == inactiveColor) {
-      maleCardColor = activeColor;
-      femaleCardColor = inactiveColor;
-    } else {
-      maleCardColor = inactiveColor;
-    }
-    if (gender == 2 && femaleCardColor == inactiveColor) {
-      femaleCardColor = activeColor;
-      maleCardColor = inactiveColor;
-    } else {
-      femaleCardColor = inactiveColor;
-    }
-  }
+  Gender selectedGender;
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +36,13 @@ class _BMIPageState extends State<BMIPage> {
                       child: GestureDetector(
                         onTap: () {
                           setState(() {
-                            changeColor(1);
+                            selectedGender = Gender.male;
                           });
                         },
                         child: BoxContainer(
-                          color: maleCardColor,
+                          color: selectedGender == Gender.male
+                              ? activeColor
+                              : inactiveColor,
                           cardChild: CardContainer(
                             icon: FontAwesomeIcons.mars,
                             label: "Male",
@@ -66,11 +54,13 @@ class _BMIPageState extends State<BMIPage> {
                         child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          changeColor(2);
+                          selectedGender = Gender.female;
                         });
                       },
                       child: BoxContainer(
-                        color: femaleCardColor,
+                        color: selectedGender == Gender.female
+                            ? activeColor
+                            : inactiveColor,
                         cardChild: CardContainer(
                           icon: FontAwesomeIcons.venus,
                           label: "Female",
@@ -82,6 +72,21 @@ class _BMIPageState extends State<BMIPage> {
               ),
               Expanded(
                 child: BoxContainer(
+                  cardChild: Column(
+                    children: [
+                      Text("HEIGHT",
+                          style: TextStyle(fontSize: 80, color: Colors.white)),
+                      Row(
+                        children: [
+                          Text("180"),
+                          Text(
+                            "cm",
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                   color: Color(0xFF1D1E33),
                 ),
               ),
@@ -110,25 +115,6 @@ class _BMIPageState extends State<BMIPage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class BoxContainer extends StatelessWidget {
-  final Widget cardChild;
-  final Color color;
-
-  BoxContainer({this.cardChild, this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: cardChild,
-      margin: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
       ),
     );
   }
