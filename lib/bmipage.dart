@@ -16,6 +16,7 @@ class BMIPage extends StatefulWidget {
 
 class _BMIPageState extends State<BMIPage> {
   Gender selectedGender;
+  int height = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -73,17 +74,47 @@ class _BMIPageState extends State<BMIPage> {
               Expanded(
                 child: BoxContainer(
                   cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("HEIGHT",
-                          style: TextStyle(fontSize: 80, color: Colors.white)),
+                          style: TextStyle(
+                              fontSize: 18, color: Color(0xFF8D8E98))),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Text("180"),
+                          Text(height.toString(),
+                              style: TextStyle(
+                                  fontSize: 50.0, fontWeight: FontWeight.w900)),
                           Text(
                             "cm",
                             style: TextStyle(fontSize: 14),
                           ),
                         ],
+                      ),
+                      //To make the slider adjust the height string, simply set it as a variable and use the variable in the slider
+                      SliderTheme(
+                        data: SliderTheme.of(context).copyWith(
+                          activeTrackColor: Colors.white,
+                          overlayColor: Color(0x29EB1555),
+                          thumbColor: Color(0xFFEB1555),
+                          inactiveTrackColor: Color(0xFF8D8E98),
+                          thumbShape:
+                              RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                          overlayShape:
+                              RoundSliderOverlayShape(overlayRadius: 30.0),
+                        ),
+                        child: Slider(
+                          value: height.toDouble(),
+                          min: 120.0,
+                          max: 220.0,
+                          onChanged: (double newValue) {
+                            setState(() {
+                              height = newValue.round();
+                            });
+                          },
+                        ),
                       )
                     ],
                   ),
@@ -92,6 +123,7 @@ class _BMIPageState extends State<BMIPage> {
               ),
               Expanded(
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: BoxContainer(
