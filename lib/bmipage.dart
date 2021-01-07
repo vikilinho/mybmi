@@ -17,6 +17,7 @@ class BMIPage extends StatefulWidget {
 class _BMIPageState extends State<BMIPage> {
   Gender selectedGender;
   int height = 180;
+  int weight = 150;
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +128,44 @@ class _BMIPageState extends State<BMIPage> {
                   children: [
                     Expanded(
                       child: BoxContainer(
+                        cardChild: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Weight",
+                              style: TextStyle(
+                                  fontSize: 18, color: Color(0xFF8D8E98)),
+                            ),
+                            Text(
+                              weight.toString(),
+                              style: TextStyle(
+                                  fontSize: 50.0, fontWeight: FontWeight.w900),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                FloatingActionButton(
+                                  backgroundColor: Color(0xFF4C4F5E),
+                                  onPressed: () {
+                                    setState(() {});
+                                  },
+                                  child: Icon(
+                                    Icons.add,
+                                  ),
+                                ),
+                                FloatingActionButton(
+                                  backgroundColor: Color(0xFF4C4F5E),
+                                  onPressed: () {
+                                    setState(() {});
+                                  },
+                                  child: Icon(
+                                    Icons.add,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                         color: Color(0xFF1D1E33),
                       ),
                     ),
