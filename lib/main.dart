@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'bmipage.dart';
 
 void main() {
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xFF0A0E21),
         textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
       ),
-      home: BMIPage(),
+      initialRoute: "BmiPage",
+      routes: {"BmiPage": (context) => BMIPage()},
     );
   }
 }

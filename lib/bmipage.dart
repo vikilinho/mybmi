@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mybmi/calculator.dart';
 import 'package:mybmi/card_container.dart';
 import 'package:mybmi/constants/boxContainer.dart';
+import 'package:mybmi/resultPage.dart';
 
 const butcontainerHeight = 80.0;
 const butContainerColor = Color(0xFFEB1555);
@@ -18,6 +20,7 @@ class _BMIPageState extends State<BMIPage> {
   Gender selectedGender;
   int height = 180;
   int weight = 150;
+  int age = 18;
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +135,7 @@ class _BMIPageState extends State<BMIPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Weight",
+                              "WEIGHT",
                               style: TextStyle(
                                   fontSize: 18, color: Color(0xFF8D8E98)),
                             ),
@@ -144,24 +147,22 @@ class _BMIPageState extends State<BMIPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                FloatingActionButton(
-                                  backgroundColor: Color(0xFF4C4F5E),
-                                  onPressed: () {
-                                    setState(() {});
+                                RoundIconButton(
+                                  icon: FontAwesomeIcons.minus,
+                                  onpressed: () {
+                                    setState(() {
+                                      weight--;
+                                    });
                                   },
-                                  child: Icon(
-                                    Icons.add,
-                                  ),
                                 ),
-                                FloatingActionButton(
-                                  backgroundColor: Color(0xFF4C4F5E),
-                                  onPressed: () {
-                                    setState(() {});
+                                RoundIconButton(
+                                  icon: FontAwesomeIcons.plus,
+                                  onpressed: () {
+                                    setState(() {
+                                      weight++;
+                                    });
                                   },
-                                  child: Icon(
-                                    Icons.add,
-                                  ),
-                                )
+                                ),
                               ],
                             ),
                           ],
@@ -171,22 +172,97 @@ class _BMIPageState extends State<BMIPage> {
                     ),
                     Expanded(
                       child: BoxContainer(
+                        cardChild: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "AGE",
+                              style: TextStyle(
+                                  fontSize: 18, color: Color(0xFF8D8E98)),
+                            ),
+                            Text(
+                              age.toString(),
+                              style: TextStyle(
+                                  fontSize: 50.0, fontWeight: FontWeight.w900),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                RoundIconButton(
+                                  icon: FontAwesomeIcons.minus,
+                                  onpressed: () {
+                                    setState(() {
+                                      age--;
+                                    });
+                                  },
+                                ),
+                                RoundIconButton(
+                                  icon: FontAwesomeIcons.plus,
+                                  onpressed: () {
+                                    setState(() {
+                                      age++;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                         color: Color(0xFF1D1E33),
                       ),
                     ),
                   ],
                 ),
               ),
-              Container(
-                color: butContainerColor,
-                margin: EdgeInsets.only(top: 10),
-                width: double.infinity,
-                height: butcontainerHeight,
-              )
+              GestureDetector(
+                onTap: () {
+                  Calculator cal = Calculator(height: height, weight: weight);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ResultPage(
+                                bmiResult: cal.bmiCal(),
+                                resultText: cal.getResult(),
+                                interpretation: cal.moreInfo(),
+                              )));
+                },
+                child: Container(
+                  child: Center(
+                    child: Text("CALCULATE",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white, fontSize: 25)),
+                  ),
+                  color: butContainerColor,
+                  margin: EdgeInsets.only(top: 10),
+                  width: double.infinity,
+                  height: butcontainerHeight,
+                ),
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  final IconData icon;
+  final Function onpressed;
+  RoundIconButton({@required this.icon, @required this.onpressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onPressed: onpressed,
+      child: Icon(
+        icon,
+        color: Colors.white,
+      ),
+      elevation: 0.0,
+      constraints: BoxConstraints.tightFor(height: 56.0, width: 56.0),
+      shape: CircleBorder(),
+      fillColor: Color(0xFF4C4F5E),
     );
   }
 }
